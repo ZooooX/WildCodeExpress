@@ -10,6 +10,14 @@ export default class WilderService {
         }
     }
 
+    static async getById(_id){
+        try {
+            return await Wilder.findOne({_id});
+        }catch(err){
+            throw `Error getting the wilder ${id}!`;
+        }
+    }
+
     static async create(wilder){
         try {
             await Wilder.init();
@@ -34,7 +42,7 @@ export default class WilderService {
         
     }
 
-    static async update(id,wilder){
+    static async update(_id,wilder){
         try {
 
             const {name, city, skills} = wilder;
@@ -44,10 +52,16 @@ export default class WilderService {
                 skills
             };
 
-            return await Wilder.findByIdAndUpdate(id, wilderToUpdate, { runValidators: true });
+            const modif = await Wilder.updateOne({_id}, wilderToUpdate, { runValidators: true });
+            if(modif.matchedCount == 0) throw new Error("Wilder doesn't exists !")
+            else return this.getById(_id);
+
         }catch(err){
             if(err.errors){
                 throw Tools.listErrors(err);
+            }
+            else if(err.message){
+                throw err.message;
             } 
             else{
                 throw "Error updating the wilder !";
@@ -55,11 +69,19 @@ export default class WilderService {
         }
     }
 
-    static async delete(id){
+    static async delete(_id){
         try {
-            return await Wilder.findOneAndDelete({__id : id});
+            const del = await Wilder.deleteOne({_id});
+            if(del.deletedCount == 0) throw new Error("Wilder doesn't exists !")
+            else return `Wilder ${_id} successfully deleted !`;
+
         }catch(err){
-            throw "Error deleting the wilder !";
+            if(err.message){
+                throw err.message;
+            }
+            else{
+                throw "Error deleting the wilder !";
+            }
         }
     }
 }

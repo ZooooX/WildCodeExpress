@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { Controllers } from "./controllers";
+import { Routes } from "./routes";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -21,6 +21,6 @@ catch(err){
     throw Error("Failed to connect to database !");
 }
 
-app.use('/api', Controllers);
+app.use('/api', Routes);
 
 app.listen(process.env.PORT || 3000, () => console.log(`Server listening on port ${process.env.PORT || 3000}`));
