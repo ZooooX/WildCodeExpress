@@ -13,7 +13,7 @@ export default class WilderController {
 
     static async getById(req,res,next) {
         try {
-            const wilder = await WilderService.getById(req.params.id);
+            const wilder = await WilderService.getById(req.params._id);
             res.status(200).send(wilder);
         } catch (err) {
             res.status(500).send(err);
@@ -26,13 +26,14 @@ export default class WilderController {
             const wilder = await WilderService.create(req.body);
             res.status(200).send(wilder);
         } catch (err) {
+            console.log(err)
             res.status(500).send(err);
         }
     }
 
     static async update(req,res,next) {
         try {
-            const wilder = await WilderService.update(req.body.id, req.body.wilder);
+            const wilder = await WilderService.update(req.body._id, req.body.wilder);
             res.status(200).send(wilder);
         } catch (err) {
             res.status(500).send(err);
@@ -41,8 +42,8 @@ export default class WilderController {
 
     static async delete(req,res,next) {
         try {
-            const res = await WilderService.delete(req.body.id);
-            res.status(200).send(res);
+            const result = await WilderService.delete(req.body._id);
+            res.status(200).send(result);
         } catch (err) {
             res.status(500).send(err);
         }

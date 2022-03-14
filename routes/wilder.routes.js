@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/" , WilderController.getAll);
 
-router.get("/:id" ,WilderController.getById);
+router.get("/:_id" ,WilderController.getById);
 
 router.post("/" , wilderValidationrule("create"), validate , WilderController.create);
 
